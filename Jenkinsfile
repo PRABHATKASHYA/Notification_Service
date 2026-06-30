@@ -34,12 +34,6 @@ pipeline {
         }
         
         stage('SonarQube Analysis') {
-            when {
-                anyOf {
-                    branch 'main'
-                    branch 'develop'
-                }
-            }
             environment {
                 SONAR_SCANNER_HOME = tool 'SonarQubeScanner'
             }
@@ -51,12 +45,6 @@ pipeline {
         }
         
         stage('Quality Gate') {
-            when {
-                anyOf {
-                    branch 'main'
-                    branch 'develop'
-                }
-            }
             steps {
                 script {
                     timeout(time: 10, unit: 'MINUTES') {
