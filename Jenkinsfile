@@ -9,11 +9,6 @@ pipeline {
         )
     }
     
-    environment {
-        MAVEN_HOME = tool 'Maven'
-        JAVA_HOME = tool 'JDK17'
-    }
-    
     stages {
         stage('Checkout') {
             steps {
@@ -23,13 +18,13 @@ pipeline {
         
         stage('Build') {
             steps {
-                sh "${MAVEN_HOME}/bin/mvn clean compile"
+                sh "./mvnw clean compile"
             }
         }
         
         stage('Test') {
             steps {
-                sh "${MAVEN_HOME}/bin/mvn test"
+                sh "./mvnw test"
             }
             post {
                 always {
@@ -40,7 +35,7 @@ pipeline {
         
         stage('Package') {
             steps {
-                sh "${MAVEN_HOME}/bin/mvn package -DskipTests"
+                sh "./mvnw package -DskipTests"
             }
         }
         
@@ -110,9 +105,6 @@ pipeline {
         }
         failure {
             echo "Pipeline failed for ${params.ENVIRONMENT} environment"
-        }
-        always {
-            cleanWs()
         }
     }
 }
